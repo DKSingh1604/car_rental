@@ -1,0 +1,83 @@
+import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
+
+class OnboardingPage extends StatelessWidget {
+  const OnboardingPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Stack(
+        children: [
+          // 🔹 Background Image
+          Positioned.fill(
+            child: Image.asset(
+              'assets/images/onboard6.jpeg',
+              fit: BoxFit.cover,
+            ),
+          ),
+
+          // 🔹 Dark Overlay (optional for readability)
+          Positioned.fill(
+            child: Container(color: Colors.black.withOpacity(0.5)),
+          ),
+
+          // 🔹 Text and Button
+          Positioned(
+            left: 20,
+            right: 20,
+            top: 80,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  "Rent Your Dream Car Now",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 32,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                SizedBox(height: 10),
+                Text(
+                  "Explore premium cars at the best price.\nDrive with comfort and class.",
+                  style: TextStyle(color: Colors.white70, fontSize: 16),
+                ),
+                SizedBox(height: 30),
+                Padding(
+                  padding: const EdgeInsets.only(left: 160),
+                  child: ElevatedButton(
+                    onPressed: () {
+                      // TODO: Navigate to next screen
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.transparent,
+                      foregroundColor:
+                          Colors.greenAccent, // 👈 adds ripple color
+                      elevation: 0,
+                      shadowColor: Colors.transparent,
+                      splashFactory:
+                          InkRipple.splashFactory, // 👈 ensures ripple effect
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 40,
+                        vertical: 15,
+                      ),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30),
+                        side: BorderSide(color: Colors.white, width: 2),
+                      ),
+                    ),
+                    child: Text(
+                      "Get Started",
+                      style: TextStyle(fontSize: 16, color: Colors.white),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
