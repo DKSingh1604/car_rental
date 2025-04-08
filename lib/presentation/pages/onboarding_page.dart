@@ -1,5 +1,5 @@
+import 'package:car_rental/presentation/pages/car_list_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:lottie/lottie.dart';
 
 class OnboardingPage extends StatelessWidget {
   const OnboardingPage({super.key});
@@ -48,7 +48,27 @@ class OnboardingPage extends StatelessWidget {
                   padding: const EdgeInsets.only(left: 160),
                   child: ElevatedButton(
                     onPressed: () {
-                      // TODO: Navigate to next screen
+                      Navigator.of(context).push(
+                        PageRouteBuilder(
+                          pageBuilder:
+                              (context, animation, secondaryAnimation) =>
+                                  CarListScreen(),
+                          transitionsBuilder: (
+                            context,
+                            animation,
+                            secondaryAnimation,
+                            child,
+                          ) {
+                            return FadeTransition(
+                              opacity: animation,
+                              child: child,
+                            );
+                          },
+                          transitionDuration: Duration(
+                            milliseconds: 400,
+                          ), // Adjust as needed
+                        ),
+                      );
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.transparent,
