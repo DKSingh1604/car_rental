@@ -17,7 +17,7 @@ class OnboardingPage extends StatelessWidget {
             ),
           ),
 
-          // 🔹 Dark Overlay (optional for readability)
+          // 🔹 Dark Overlay
           Positioned.fill(
             child: Container(color: Colors.black.withOpacity(0.5)),
           ),
