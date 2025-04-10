@@ -18,7 +18,6 @@ class CarCard extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Car Image
             ClipRRect(
               borderRadius: BorderRadius.circular(15),
               child: Image.asset(
