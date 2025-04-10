@@ -8,6 +8,7 @@ final List<Car> cars = [
     pricePerHour: 45,
     imageUrl: 'assets/images/fortuner.jpg',
   ),
+
   Car(
     model: 'Honda Civic',
     distance: 500,
