@@ -7,6 +7,7 @@ final List<Car> cars = [
     fuelCapacity: 50,
     pricePerHour: 45,
     imageUrl: 'assets/images/fortuner.jpg',
+    owner: 'John Doe',
   ),
 
   Car(
@@ -15,6 +16,7 @@ final List<Car> cars = [
     fuelCapacity: 60,
     pricePerHour: 20,
     imageUrl: 'assets/images/civic.jpg',
+    owner: 'Jane Smith',
   ),
 
   Car(
@@ -23,6 +25,7 @@ final List<Car> cars = [
     fuelCapacity: 100,
     pricePerHour: 200,
     imageUrl: 'assets/images/gtr.jpg',
+    owner: 'Alice Johnson',
   ),
 
   Car(
@@ -31,6 +34,7 @@ final List<Car> cars = [
     fuelCapacity: 300,
     pricePerHour: 800,
     imageUrl: 'assets/images/r8.jpg',
+    owner: 'Bob Brown',
   ),
   Car(
     model: 'Mecerdes G-Wagon',
@@ -38,5 +42,6 @@ final List<Car> cars = [
     fuelCapacity: 120,
     pricePerHour: 100,
     imageUrl: 'assets/images/gwagon.jpg',
+    owner: 'Charlie Davis',
   ),
 ];

@@ -5,6 +5,7 @@ class Car {
   final double fuelCapacity;
   final double pricePerHour;
   final String imageUrl;
+  final String owner;
 
   Car({
     required this.model,
@@ -12,5 +13,6 @@ class Car {
     required this.fuelCapacity,
     required this.pricePerHour,
     required this.imageUrl,
+    required this.owner,
   });
 }
