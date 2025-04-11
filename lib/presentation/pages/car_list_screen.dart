@@ -9,7 +9,7 @@ class CarListScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.black45,
-      appBar: AppBar(backgroundColor: Colors.transparent),
+      appBar: AppBar(backgroundColor: Colors.black),
       body: ListView.builder(
         itemCount: cars.length,
         itemBuilder: (context, index) {
