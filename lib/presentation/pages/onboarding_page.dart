@@ -12,7 +12,7 @@ class OnboardingPage extends StatelessWidget {
           // 🔹 Background Image
           Positioned.fill(
             child: Image.asset(
-              'assets/images/onboard6.jpeg',
+              'assets/images/onboard9.jpeg',
               fit: BoxFit.cover,
             ),
           ),
@@ -26,7 +26,7 @@ class OnboardingPage extends StatelessWidget {
           Positioned(
             left: 20,
             right: 20,
-            top: 80,
+            top: 170,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -34,14 +34,19 @@ class OnboardingPage extends StatelessWidget {
                   "Rent Your Dream Car Now",
                   style: TextStyle(
                     color: Colors.white,
-                    fontSize: 32,
+                    fontSize: 40,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
                 SizedBox(height: 10),
                 Text(
                   "Explore premium cars at the best price.\nDrive with comfort and class.",
-                  style: TextStyle(color: Colors.white70, fontSize: 16),
+                  style: TextStyle(
+                    color: Colors.white70,
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                    backgroundColor: Colors.black.withOpacity(0.5),
+                  ),
                 ),
                 SizedBox(height: 30),
                 Padding(
@@ -72,8 +77,7 @@ class OnboardingPage extends StatelessWidget {
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.transparent,
-                      foregroundColor:
-                          Colors.greenAccent, // 👈 adds ripple color
+                      foregroundColor: Colors.grey, // 👈 adds ripple color
                       elevation: 0,
                       shadowColor: Colors.transparent,
                       splashFactory:

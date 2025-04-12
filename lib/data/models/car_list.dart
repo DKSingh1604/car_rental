@@ -6,7 +6,7 @@ final List<Car> cars = [
     distance: 870,
     fuelCapacity: 50,
     pricePerHour: 45,
-    imageUrl: 'assets/images/fortuner.jpg',
+    imageUrl: 'assets/images/fortuner_bg.png',
     owner: 'John Doe',
   ),
 
@@ -15,7 +15,7 @@ final List<Car> cars = [
     distance: 500,
     fuelCapacity: 60,
     pricePerHour: 20,
-    imageUrl: 'assets/images/civic.jpg',
+    imageUrl: 'assets/images/civic_bg.png',
     owner: 'Jane Smith',
   ),
 
