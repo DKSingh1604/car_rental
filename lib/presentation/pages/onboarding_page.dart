@@ -26,7 +26,7 @@ class OnboardingPage extends StatelessWidget {
           Positioned(
             left: 20,
             right: 20,
-            top: 170,
+            top: 150,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [

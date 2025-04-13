@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:car_rental/data/models/car.dart';
 import 'package:car_rental/presentation/pages/map_details_page.dart';
 import 'package:flutter/material.dart';
@@ -226,7 +228,8 @@ class _CardDetailsPageState extends State<CardDetailsPage> {
                 children: [
                   // MAP SECTION
                   GestureDetector(
-                    onTap: () {
+                    onTap: () async {
+                      // Navigate to the map page
                       Navigator.of(context).push(
                         PageRouteBuilder(
                           pageBuilder:
