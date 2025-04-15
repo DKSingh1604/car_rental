@@ -5,19 +5,17 @@ import 'package:geolocator/geolocator.dart';
 import 'package:latlong2/latlong.dart';
 
 class MapDetailsPage extends StatefulWidget {
-  LatLng? _currentPosition;
+  final LatLng? _currentPosition;
   final Car car;
-  const MapDetailsPage({super.key, required this.car}) : _currentPosition = null;
+  const MapDetailsPage({super.key, required this.car})
+    : _currentPosition = null;
 
   @override
-  State<MapDetailsPage> createState() => _MapDetailsPageState(car: );
+  State<MapDetailsPage> createState() => _MapDetailsPageState();
 }
 
 class _MapDetailsPageState extends State<MapDetailsPage> {
- 
-  
-
-  
+  LatLng? _currentPosition;
 
   @override
   void initState() {
@@ -37,7 +35,7 @@ class _MapDetailsPageState extends State<MapDetailsPage> {
     );
 
     setState(() {
-      _currentPosition = LatLng(position.latitude, position.longitude);
+      var _currentPosition = LatLng(position.latitude, position.longitude);
     });
   }
 
@@ -86,7 +84,7 @@ class _MapDetailsPageState extends State<MapDetailsPage> {
                     bottom: 0,
                     left: 0,
                     right: 0,
-                    child: carDetailsCard(car),
+                    child: carDetailsCard(widget.car),
                   ),
                 ],
               ),

@@ -234,7 +234,7 @@ class _CardDetailsPageState extends State<CardDetailsPage> {
                         PageRouteBuilder(
                           pageBuilder:
                               (context, animation, secondaryAnimation) =>
-                                  MapDetailsPage(),
+                                  MapDetailsPage(car: widget.car),
                         ),
                       );
                     },
