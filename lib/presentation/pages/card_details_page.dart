@@ -27,6 +27,7 @@ class _CardDetailsPageState extends State<CardDetailsPage> {
             textStyle: TextStyle(
               fontSize: 24,
               fontWeight: FontWeight.bold,
+
               color: Colors.black,
             ),
           ),
