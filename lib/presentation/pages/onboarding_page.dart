@@ -1,5 +1,7 @@
 import 'package:car_rental/presentation/pages/car_list_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:car_rental/presentation/bloc/car_bloc.dart';
 
 class OnboardingPage extends StatelessWidget {
   const OnboardingPage({super.key});
@@ -53,11 +55,24 @@ class OnboardingPage extends StatelessWidget {
                   padding: const EdgeInsets.only(left: 160),
                   child: ElevatedButton(
                     onPressed: () {
+                      // Get the CarBloc instance from the current context
+                      final carBloc = BlocProvider.of<CarBloc>(context);
+
+                      // Explicitly trigger car loading before navigation
+                      carBloc.add(LoadCarEvent());
+
                       Navigator.of(context).push(
                         PageRouteBuilder(
-                          pageBuilder:
-                              (context, animation, secondaryAnimation) =>
-                                  CarListScreen(),
+                          pageBuilder: (
+                            context,
+                            animation,
+                            secondaryAnimation,
+                          ) {
+                            return BlocProvider.value(
+                              value: carBloc,
+                              child: CarListScreen(),
+                            );
+                          },
                           transitionsBuilder: (
                             context,
                             animation,
@@ -69,9 +84,7 @@ class OnboardingPage extends StatelessWidget {
                               child: child,
                             );
                           },
-                          transitionDuration: Duration(
-                            milliseconds: 400,
-                          ), // Adjust as needed
+                          transitionDuration: Duration(milliseconds: 400),
                         ),
                       );
                     },

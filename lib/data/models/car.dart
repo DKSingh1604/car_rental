@@ -15,4 +15,15 @@ class Car {
     required this.imageUrl,
     required this.owner,
   });
+
+  factory Car.fromMap(Map<String, dynamic> map) {
+    return Car(
+      model: map['model'],
+      distance: map['distance'],
+      fuelCapacity: map['fuelCapacity'],
+      pricePerHour: map['pricePerHour'],
+      imageUrl: map['imageUrl'],
+      owner: map['owner'],
+    );
+  }
 }

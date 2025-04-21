@@ -13,9 +13,36 @@ class CardDetailsPage extends StatefulWidget {
   State<CardDetailsPage> createState() => _CardDetailsPageState();
 }
 
-class _CardDetailsPageState extends State<CardDetailsPage> {
+class _CardDetailsPageState extends State<CardDetailsPage>
+    with SingleTickerProviderStateMixin {
+  AnimationController? _controller;
+  Animation<double>? _animation;
+
+  @override
+  void initState() {
+    _controller = AnimationController(
+      duration: const Duration(milliseconds: 1500),
+      vsync: this,
+    );
+    _animation = Tween<double>(begin: 1, end: 1.5).animate(_controller!)
+      ..addListener(() {
+        setState(() {});
+      });
+    _controller!.forward();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _controller!.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
+
     return Scaffold(
       backgroundColor: Colors.grey[200],
       appBar: AppBar(
@@ -25,9 +52,8 @@ class _CardDetailsPageState extends State<CardDetailsPage> {
           'Car Details',
           style: GoogleFonts.poppins(
             textStyle: TextStyle(
-              fontSize: 24,
+              fontSize: screenWidth * 0.06,
               fontWeight: FontWeight.bold,
-
               color: Colors.black,
             ),
           ),
@@ -40,16 +66,18 @@ class _CardDetailsPageState extends State<CardDetailsPage> {
             children: [
               // HEADER SECTION
               Container(
-                padding: EdgeInsets.symmetric(vertical: 20),
+                padding: EdgeInsets.symmetric(vertical: screenHeight * 0.025),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     //INFORMATION ROW
                     Container(
-                      padding: EdgeInsets.all(10),
+                      padding: EdgeInsets.all(screenWidth * 0.025),
                       decoration: BoxDecoration(
                         // color: Colors.white,
-                        borderRadius: BorderRadius.circular(22),
+                        borderRadius: BorderRadius.circular(
+                          screenWidth * 0.055,
+                        ),
                         boxShadow: [
                           BoxShadow(
                             color: Colors.black.withOpacity(0.3),
@@ -60,11 +88,16 @@ class _CardDetailsPageState extends State<CardDetailsPage> {
                       ),
                       child: Row(
                         children: [
-                          Icon(Icons.info_outline_rounded, color: Colors.black),
+                          Icon(
+                            Icons.info_outline_rounded,
+                            color: Colors.black,
+                            size: screenWidth * 0.05,
+                          ),
+                          SizedBox(width: screenWidth * 0.01),
                           Text(
                             'Information',
                             style: TextStyle(
-                              fontSize: 16,
+                              fontSize: screenWidth * 0.04,
                               fontWeight: FontWeight.w500,
                             ),
                           ),
@@ -73,10 +106,12 @@ class _CardDetailsPageState extends State<CardDetailsPage> {
                     ),
                     //NOTIFICATIONS ROW
                     Container(
-                      padding: EdgeInsets.all(10),
+                      padding: EdgeInsets.all(screenWidth * 0.025),
                       decoration: BoxDecoration(
                         // color: Colors.white,
-                        borderRadius: BorderRadius.circular(22),
+                        borderRadius: BorderRadius.circular(
+                          screenWidth * 0.055,
+                        ),
                         boxShadow: [
                           BoxShadow(
                             color: Colors.black.withOpacity(0.3),
@@ -87,11 +122,16 @@ class _CardDetailsPageState extends State<CardDetailsPage> {
                       ),
                       child: Row(
                         children: [
-                          Icon(Icons.notifications_active, color: Colors.black),
+                          Icon(
+                            Icons.notifications_active,
+                            color: Colors.black,
+                            size: screenWidth * 0.05,
+                          ),
+                          SizedBox(width: screenWidth * 0.01),
                           Text(
                             'Notifications',
                             style: TextStyle(
-                              fontSize: 16,
+                              fontSize: screenWidth * 0.04,
                               fontWeight: FontWeight.w500,
                             ),
                           ),
@@ -104,13 +144,11 @@ class _CardDetailsPageState extends State<CardDetailsPage> {
               // NEAREST CAR SECTION
               Container(
                 width: double.infinity,
-                margin: EdgeInsets.all(16),
-
+                margin: EdgeInsets.all(screenWidth * 0.04),
                 decoration: BoxDecoration(
                   //color in hex code
                   color: Color.fromARGB(255, 224, 204, 207),
-
-                  borderRadius: BorderRadius.circular(25),
+                  borderRadius: BorderRadius.circular(screenWidth * 0.06),
                   boxShadow: [
                     BoxShadow(
                       color: Colors.grey.withOpacity(0.5),
@@ -123,14 +161,17 @@ class _CardDetailsPageState extends State<CardDetailsPage> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Padding(
-                      padding: const EdgeInsets.only(left: 30.0, top: 10),
+                      padding: EdgeInsets.only(
+                        left: screenWidth * 0.075,
+                        top: screenHeight * 0.012,
+                      ),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
                           Text(
                             'NEAREST CAR',
                             style: TextStyle(
-                              fontSize: 13,
+                              fontSize: screenWidth * 0.032,
                               fontWeight: FontWeight.bold,
                               color: Colors.grey[700],
                             ),
@@ -142,17 +183,17 @@ class _CardDetailsPageState extends State<CardDetailsPage> {
                       // 'assets/images/civic_bg.png',
                       widget.car.imageUrl,
                       fit: BoxFit.cover,
-                      height: 200,
+                      height: screenHeight * 0.25,
                       width: double.infinity,
                     ),
                     // CAR NAME
                     Padding(
-                      padding: const EdgeInsets.only(left: 30.0),
+                      padding: EdgeInsets.only(left: screenWidth * 0.075),
                       child: Text(
                         widget.car.model,
                         style: GoogleFonts.titilliumWeb(
                           textStyle: TextStyle(
-                            fontSize: 18,
+                            fontSize: screenWidth * 0.045,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
@@ -160,9 +201,9 @@ class _CardDetailsPageState extends State<CardDetailsPage> {
                     ),
                     //CAR DETAILS
                     Padding(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 30,
-                        vertical: 10,
+                      padding: EdgeInsets.symmetric(
+                        horizontal: screenWidth * 0.075,
+                        vertical: screenHeight * 0.012,
                       ),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -173,12 +214,13 @@ class _CardDetailsPageState extends State<CardDetailsPage> {
                               Icon(
                                 Icons.battery_4_bar_outlined,
                                 color: Colors.grey[700],
+                                size: screenWidth * 0.04,
                               ),
-                              SizedBox(width: 2),
+                              SizedBox(width: screenWidth * 0.005),
                               Text(
                                 '${widget.car.fuelCapacity} km',
                                 style: TextStyle(
-                                  fontSize: 12,
+                                  fontSize: screenWidth * 0.03,
                                   color: Colors.grey[700],
                                 ),
                               ),
@@ -190,12 +232,13 @@ class _CardDetailsPageState extends State<CardDetailsPage> {
                               Icon(
                                 Icons.directions_walk,
                                 color: Colors.grey[700],
+                                size: screenWidth * 0.04,
                               ),
-                              SizedBox(width: 2),
+                              SizedBox(width: screenWidth * 0.005),
                               Text(
                                 '${widget.car.distance.toString()} m',
                                 style: TextStyle(
-                                  fontSize: 12,
+                                  fontSize: screenWidth * 0.03,
                                   color: Colors.grey[700],
                                 ),
                               ),
@@ -205,12 +248,16 @@ class _CardDetailsPageState extends State<CardDetailsPage> {
                           Row(
                             children: [
                               // PRICE
-                              Icon(Icons.euro, color: Colors.grey[700]),
-                              SizedBox(width: 2),
+                              Icon(
+                                Icons.euro,
+                                color: Colors.grey[700],
+                                size: screenWidth * 0.04,
+                              ),
+                              SizedBox(width: screenWidth * 0.005),
                               Text(
                                 '${widget.car.pricePerHour} / h',
                                 style: TextStyle(
-                                  fontSize: 12,
+                                  fontSize: screenWidth * 0.03,
                                   color: Colors.grey[700],
                                 ),
                               ),
@@ -230,7 +277,6 @@ class _CardDetailsPageState extends State<CardDetailsPage> {
                   // MAP SECTION
                   GestureDetector(
                     onTap: () async {
-                      // Navigate to the map page
                       Navigator.of(context).push(
                         PageRouteBuilder(
                           pageBuilder:
@@ -239,27 +285,32 @@ class _CardDetailsPageState extends State<CardDetailsPage> {
                         ),
                       );
                     },
-                    child: Expanded(
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: Colors.blue[100],
-                          borderRadius: BorderRadius.circular(25),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.grey.withOpacity(0.89),
-                              blurRadius: 4,
-                              spreadRadius: 2,
-                            ),
-                          ],
-                        ),
-                        margin: EdgeInsets.all(16),
 
-                        child: Image.asset(
-                          'assets/images/maps.png',
-                          fit: BoxFit.fill,
-                          height: 200,
-                          width: 160,
-                          scale: 5.5,
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: Colors.blue[100],
+                        borderRadius: BorderRadius.circular(screenWidth * 0.06),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey.withOpacity(0.89),
+                            blurRadius: 4,
+                            spreadRadius: 2,
+                          ),
+                        ],
+                      ),
+                      margin: EdgeInsets.all(screenWidth * 0.04),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(screenWidth * 0.06),
+                        child: Transform.scale(
+                          scale: _animation!.value,
+                          alignment: Alignment.center,
+                          child: Image.asset(
+                            'assets/images/maps.png',
+                            fit: BoxFit.fill,
+                            height: screenHeight * 0.25,
+                            width: screenWidth * 0.4,
+                            scale: 5.5,
+                          ),
                         ),
                       ),
                     ),
@@ -268,14 +319,13 @@ class _CardDetailsPageState extends State<CardDetailsPage> {
                   // User Details Section
                   Expanded(
                     child: Container(
-                      height: 200,
-                      width: 160,
-
-                      margin: EdgeInsets.all(16),
-                      padding: EdgeInsets.all(16),
+                      height: screenHeight * 0.25,
+                      width: screenWidth * 0.4,
+                      margin: EdgeInsets.all(screenWidth * 0.04),
+                      padding: EdgeInsets.all(screenWidth * 0.04),
                       decoration: BoxDecoration(
                         color: Colors.grey[300],
-                        borderRadius: BorderRadius.circular(25),
+                        borderRadius: BorderRadius.circular(screenWidth * 0.06),
                         boxShadow: [
                           BoxShadow(
                             color: Colors.grey.withOpacity(0.8),
@@ -291,8 +341,8 @@ class _CardDetailsPageState extends State<CardDetailsPage> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Container(
-                                width: 70,
-                                height: 70,
+                                width: screenWidth * 0.18,
+                                height: screenWidth * 0.18,
                                 decoration: BoxDecoration(
                                   shape: BoxShape.circle,
                                   border: Border.all(
@@ -304,32 +354,32 @@ class _CardDetailsPageState extends State<CardDetailsPage> {
                                   backgroundImage: AssetImage(
                                     'assets/images/user.png',
                                   ),
-                                  radius: 30,
+                                  radius: screenWidth * 0.075,
                                   backgroundColor: Colors.grey[300],
                                 ),
                               ),
 
-                              SizedBox(height: 8),
+                              SizedBox(height: screenHeight * 0.01),
 
                               Text(
                                 widget.car.owner,
                                 style: GoogleFonts.titilliumWeb(
                                   textStyle: TextStyle(
-                                    fontSize: 20,
+                                    fontSize: screenWidth * 0.05,
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
                               ),
                               Divider(
                                 color: Colors.grey[700],
-                                thickness: 5,
-                                height: 5,
+                                thickness: screenHeight * 0.006,
+                                height: screenHeight * 0.006,
                               ),
                               Text(
                                 '\$2,912.56',
                                 style: GoogleFonts.rowdies(
                                   textStyle: TextStyle(
-                                    fontSize: 18,
+                                    fontSize: screenWidth * 0.045,
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
@@ -345,23 +395,26 @@ class _CardDetailsPageState extends State<CardDetailsPage> {
 
               // SAVED FILTER SECTION
               Container(
-                height: 130,
+                height: screenHeight * 0.16,
                 width: double.infinity,
-                margin: EdgeInsets.all(16),
-                padding: EdgeInsets.all(16),
+                margin: EdgeInsets.all(screenWidth * 0.04),
+                padding: EdgeInsets.all(screenWidth * 0.04),
                 decoration: BoxDecoration(
                   color: Colors.grey[800],
-                  borderRadius: BorderRadius.circular(25),
+                  borderRadius: BorderRadius.circular(screenWidth * 0.06),
                 ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
                       'SAVED FILTERS',
-                      style: TextStyle(color: Colors.grey, fontSize: 12),
+                      style: TextStyle(
+                        color: Colors.grey,
+                        fontSize: screenWidth * 0.03,
+                      ),
                     ),
 
-                    SizedBox(height: 15),
+                    SizedBox(height: screenHeight * 0.018),
                     Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -375,7 +428,7 @@ class _CardDetailsPageState extends State<CardDetailsPage> {
                                   "3 offers",
                                   style: TextStyle(
                                     color: Colors.white,
-                                    fontSize: 23,
+                                    fontSize: screenWidth * 0.057,
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
@@ -395,33 +448,33 @@ class _CardDetailsPageState extends State<CardDetailsPage> {
                                         Icon(
                                           Icons.navigation,
                                           color: Colors.grey,
-                                          size: 16,
+                                          size: screenWidth * 0.04,
                                         ),
-                                        SizedBox(width: 3),
+                                        SizedBox(width: screenWidth * 0.008),
                                         Text(
                                           "500m",
                                           style: TextStyle(
                                             color: Colors.white,
-                                            fontSize: 13,
+                                            fontSize: screenWidth * 0.032,
                                           ),
                                         ),
                                       ],
                                     ),
-                                    SizedBox(width: 10),
+                                    SizedBox(width: screenWidth * 0.025),
                                     //BATTERY
                                     Row(
                                       children: [
                                         Icon(
                                           Icons.battery_4_bar_outlined,
                                           color: Colors.grey,
-                                          size: 16,
+                                          size: screenWidth * 0.04,
                                         ),
-                                        SizedBox(width: 3),
+                                        SizedBox(width: screenWidth * 0.008),
                                         Text(
                                           "500km",
                                           style: TextStyle(
                                             color: Colors.white,
-                                            fontSize: 13,
+                                            fontSize: screenWidth * 0.032,
                                           ),
                                         ),
                                       ],
@@ -429,6 +482,7 @@ class _CardDetailsPageState extends State<CardDetailsPage> {
                                     Icon(
                                       Icons.arrow_right_alt_rounded,
                                       color: Colors.grey,
+                                      size: screenWidth * 0.05,
                                     ),
                                   ],
                                 ),

@@ -24,7 +24,7 @@ final List<Car> cars = [
     distance: 200,
     fuelCapacity: 100,
     pricePerHour: 200,
-    imageUrl: 'assets/images/gtr.jpg',
+    imageUrl: 'assets/images/gtr_bg.png',
     owner: 'Alice Johnson',
   ),
 
@@ -33,7 +33,7 @@ final List<Car> cars = [
     distance: 40,
     fuelCapacity: 300,
     pricePerHour: 800,
-    imageUrl: 'assets/images/r8.jpg',
+    imageUrl: 'assets/images/r8_bg.png',
     owner: 'Bob Brown',
   ),
   Car(
@@ -41,7 +41,32 @@ final List<Car> cars = [
     distance: 500,
     fuelCapacity: 120,
     pricePerHour: 100,
-    imageUrl: 'assets/images/gwagon.jpg',
+    imageUrl: 'assets/images/gwagon_bg.png',
     owner: 'Charlie Davis',
+  ),
+
+  Car(
+    model: 'BMW M3',
+    distance: 300,
+    fuelCapacity: 80,
+    pricePerHour: 150,
+    imageUrl: 'assets/images/m3_bg.png',
+    owner: 'David Wilson',
+  ),
+  Car(
+    model: 'Lamborghini Huracan',
+    distance: 100,
+    fuelCapacity: 70,
+    pricePerHour: 500,
+    imageUrl: 'assets/images/huracan_bg.png',
+    owner: 'Eve Martinez',
+  ),
+  Car(
+    model: 'Porsche 911',
+    distance: 50,
+    fuelCapacity: 90,
+    pricePerHour: 300,
+    imageUrl: 'assets/images/911_bg.png',
+    owner: 'Frank Garcia',
   ),
 ];
