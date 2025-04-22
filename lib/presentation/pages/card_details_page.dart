@@ -384,6 +384,19 @@ class _CardDetailsPageState extends State<CardDetailsPage>
                                   ),
                                 ),
                               ),
+                              SizedBox(height: screenHeight * 0.02),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  //call option
+                                  Icon(Icons.call, size: 30),
+
+                                  SizedBox(width: screenWidth * 0.20),
+                                  //message option
+                                  Icon(Icons.message, size: 30),
+                                ],
+                              ),
                             ],
                           ),
                         ],

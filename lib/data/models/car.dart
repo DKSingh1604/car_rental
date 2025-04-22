@@ -26,4 +26,15 @@ class Car {
       owner: map['owner'],
     );
   }
+
+  Map<String, dynamic> toMap() {
+    return {
+      'model': model,
+      'distance': distance,
+      'fuelCapacity': fuelCapacity,
+      'pricePerHour': pricePerHour,
+      'imageUrl': imageUrl,
+      'owner': owner,
+    };
+  }
 }

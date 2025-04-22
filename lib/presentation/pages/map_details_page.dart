@@ -1,11 +1,14 @@
-import 'package:car_rental/data/models/car.dart';
+import 'dart:math';
+
+import 'package:car_rental/data/models/car.dart' as models;
+import 'package:car_rental/presentation/pages/car_book_form.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:latlong2/latlong.dart';
 
 class MapDetailsPage extends StatefulWidget {
-  final Car car;
+  final models.Car car;
   const MapDetailsPage({super.key, required this.car});
 
   @override
@@ -14,11 +17,34 @@ class MapDetailsPage extends StatefulWidget {
 
 class _MapDetailsPageState extends State<MapDetailsPage> {
   LatLng? _currentPosition;
+  LatLng? _carPosition;
+  double? _carDistanceMeters;
 
   @override
   void initState() {
     super.initState();
     _getLocation();
+  }
+
+  LatLng getRandomNearbyLocation(LatLng origin, double radiusInMeters) {
+    final random = Random();
+    // Convert radius from meters to degrees
+    final radiusInDegrees = radiusInMeters / 111320.0;
+
+    final u = random.nextDouble();
+    final v = random.nextDouble();
+    final w = radiusInDegrees * sqrt(u);
+    final t = 2 * pi * v;
+    final x = w * cos(t);
+    final y = w * sin(t);
+
+    // Adjust the x-coordinate for the shrinking of the east-west distances
+    final newX = x / cos(origin.latitude * pi / 180);
+
+    final foundLongitude = origin.longitude + newX;
+    final foundLatitude = origin.latitude + y;
+
+    return LatLng(foundLatitude, foundLongitude);
   }
 
   Future<void> _getLocation() async {
@@ -32,8 +58,21 @@ class _MapDetailsPageState extends State<MapDetailsPage> {
       desiredAccuracy: LocationAccuracy.high,
     );
 
+    final userLatLng = LatLng(position.latitude, position.longitude);
+    final carLatLng = getRandomNearbyLocation(userLatLng, 2000); // 2km radius
+
+    // Calculate distance in meters
+    final distance = Geolocator.distanceBetween(
+      userLatLng.latitude,
+      userLatLng.longitude,
+      carLatLng.latitude,
+      carLatLng.longitude,
+    );
+
     setState(() {
-      _currentPosition = LatLng(position.latitude, position.longitude);
+      _currentPosition = userLatLng;
+      _carPosition = carLatLng;
+      _carDistanceMeters = distance;
     });
   }
 
@@ -79,6 +118,17 @@ class _MapDetailsPageState extends State<MapDetailsPage> {
                               size: screenWidth * 0.1,
                             ),
                           ),
+                          if (_carPosition != null)
+                            Marker(
+                              point: _carPosition!,
+                              width: screenWidth * 0.1,
+                              height: screenWidth * 0.1,
+                              child: Icon(
+                                Icons.directions_car,
+                                color: Colors.red,
+                                size: screenWidth * 0.1,
+                              ),
+                            ),
                         ],
                       ),
                     ],
@@ -87,7 +137,7 @@ class _MapDetailsPageState extends State<MapDetailsPage> {
                     bottom: 0,
                     left: 0,
                     right: 0,
-                    child: carDetailsCard(widget.car),
+                    child: carDetailsCard(widget.car, _carDistanceMeters),
                   ),
                 ],
               ),
@@ -95,7 +145,7 @@ class _MapDetailsPageState extends State<MapDetailsPage> {
   }
 }
 
-Widget carDetailsCard(dynamic car) {
+Widget carDetailsCard(dynamic car, double? distanceMeters) {
   return Builder(
     builder: (context) {
       final screenHeight = MediaQuery.of(context).size.height;
@@ -105,6 +155,7 @@ Widget carDetailsCard(dynamic car) {
         height: screenHeight * 0.45,
         child: Stack(
           children: [
+            //Black container with car name and details
             Container(
               padding: EdgeInsets.symmetric(
                 horizontal: screenWidth * 0.05,
@@ -146,7 +197,7 @@ Widget carDetailsCard(dynamic car) {
                       ),
                       SizedBox(width: screenWidth * 0.01),
                       Text(
-                        "${car.distance} m",
+                        "${distanceMeters != null ? distanceMeters.toStringAsFixed(0) : car.distance} m",
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: screenWidth * 0.035,
@@ -172,7 +223,7 @@ Widget carDetailsCard(dynamic car) {
                 ],
               ),
             ),
-
+            //White container with features and price
             Positioned(
               bottom: 0,
               left: 0,
@@ -186,58 +237,67 @@ Widget carDetailsCard(dynamic car) {
                     topRight: Radius.circular(screenWidth * 0.05),
                   ),
                 ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      "Features",
-                      style: TextStyle(
-                        fontSize: screenWidth * 0.05,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    featureIcons(context),
-                    SizedBox(height: screenHeight * 0.02),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          '\$${car.pricePerHour}/hr',
-                          style: TextStyle(fontSize: screenWidth * 0.045),
+                child: SingleChildScrollView(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "Features",
+                        style: TextStyle(
+                          fontSize: screenWidth * 0.05,
+                          fontWeight: FontWeight.bold,
                         ),
-                        ElevatedButton(
-                          onPressed: () {
-                            print('Button Pressed');
-                          },
-                          style: ElevatedButton.styleFrom(
-                            foregroundColor: Colors.white,
-                            backgroundColor: Colors.blueGrey,
-                            padding: EdgeInsets.symmetric(
-                              horizontal: screenWidth * 0.06,
-                              vertical: screenHeight * 0.015,
+                      ),
+                      featureIcons(context),
+                      SizedBox(height: screenHeight * 0.015),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            '\$${car.pricePerHour}/hr',
+                            style: TextStyle(fontSize: screenWidth * 0.045),
+                          ),
+                          ElevatedButton(
+                            onPressed: () {
+                              print('Button Pressed');
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => CarBookForm(car: car),
+                                ),
+                              );
+                            },
+                            style: ElevatedButton.styleFrom(
+                              foregroundColor: Colors.white,
+                              backgroundColor: Colors.blueGrey,
+                              padding: EdgeInsets.symmetric(
+                                horizontal: screenWidth * 0.06,
+                                vertical: screenHeight * 0.013,
+                              ),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(
+                                  screenWidth * 0.055,
+                                ),
+                              ),
+                              elevation: 5,
                             ),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(
-                                screenWidth * 0.055,
+                            child: Text(
+                              'Book Now',
+                              style: TextStyle(
+                                fontSize: screenWidth * 0.04,
+                                fontWeight: FontWeight.w600,
                               ),
                             ),
-                            elevation: 5,
                           ),
-                          child: Text(
-                            'Book Now',
-                            style: TextStyle(
-                              fontSize: screenWidth * 0.04,
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
+                        ],
+                      ),
+                      SizedBox(height: screenHeight * 0.025),
+                    ],
+                  ),
                 ),
               ),
             ),
-
+            //Car image
             Positioned(
               width:
                   screenWidth * 0.6, // 60% of screen width instead of fixed 250

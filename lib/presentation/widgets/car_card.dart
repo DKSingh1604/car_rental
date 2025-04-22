@@ -95,7 +95,7 @@ class CarCard extends StatelessWidget {
                                   Text(car.distance.toString()),
                                 ],
                               ),
-                              const SizedBox(width: 10),
+                              const SizedBox(width: 20),
                               Row(
                                 children: [
                                   //FUEL CAPACITY

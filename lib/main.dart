@@ -1,6 +1,10 @@
+import 'package:car_rental/data/datasources/firebase_car_data_source.dart';
+import 'package:car_rental/data/models/car_list.dart';
+import 'package:car_rental/domain/usecases/get_cars.dart';
 import 'package:car_rental/firebase_options.dart';
 import 'package:car_rental/injection_container.dart';
 import 'package:car_rental/presentation/bloc/car_bloc.dart';
+import 'package:car_rental/presentation/pages/onboard_animation_page.dart';
 import 'package:car_rental/presentation/pages/onboarding_page.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -11,22 +15,30 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   initInjection();
-  runApp(const MyApp());
+  await uploadAllCars(getIt<FirebaseCarDataSource>());
+  runApp(
+    BlocProvider(
+      create: (context) => CarBloc(getCars: GetCars(getIt())),
+      child: MyApp(),
+    ),
+  );
 }
 
-class MyApp extends StatefulWidget {
-  const MyApp({super.key});
-
-  @override
-  State<MyApp> createState() => _MyAppState();
+Future<void> uploadAllCars(FirebaseCarDataSource dataSource) async {
+  for (final car in cars) {
+    await dataSource.addCar(car);
+  }
+  print('All cars uploaded!');
 }
 
-class _MyAppState extends State<MyApp> {
+class MyApp extends StatelessWidget {
+  MyApp({super.key});
+
   FirebaseFirestore db = FirebaseFirestore.instance;
 
   void _addUser() {
     final user = {
-      "firestName": "Dev Karan",
+      "firstName": "Dev Karan",
       "lastName": "Singh",
       "born": "April 2004",
       "email": "heheboi@gmail.com",
@@ -41,12 +53,9 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (_) => getIt<CarBloc>()..add(LoadCarEvent()),
-      child: MaterialApp(
-        debugShowCheckedModeBanner: false,
-        home: OnboardingPage(),
-      ),
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: OnboardAnimationPage(),
     );
   }
 }

@@ -55,12 +55,8 @@ class OnboardingPage extends StatelessWidget {
                   padding: const EdgeInsets.only(left: 160),
                   child: ElevatedButton(
                     onPressed: () {
-                      // Get the CarBloc instance from the current context
-                      final carBloc = BlocProvider.of<CarBloc>(context);
-
-                      // Explicitly trigger car loading before navigation
-                      carBloc.add(LoadCarEvent());
-
+                      // Navigate to car list screen but don't dispatch event
+                      // The CarListScreen will handle the event dispatch itself
                       Navigator.of(context).push(
                         PageRouteBuilder(
                           pageBuilder: (
@@ -69,7 +65,7 @@ class OnboardingPage extends StatelessWidget {
                             secondaryAnimation,
                           ) {
                             return BlocProvider.value(
-                              value: carBloc,
+                              value: context.read<CarBloc>(),
                               child: CarListScreen(),
                             );
                           },
@@ -79,8 +75,18 @@ class OnboardingPage extends StatelessWidget {
                             secondaryAnimation,
                             child,
                           ) {
-                            return FadeTransition(
-                              opacity: animation,
+                            const begin = Offset(
+                              1.0,
+                              0.0,
+                            ); // Slide from right to left
+                            const end = Offset.zero;
+                            const curve = Curves.ease;
+                            var tween = Tween(
+                              begin: begin,
+                              end: end,
+                            ).chain(CurveTween(curve: curve));
+                            return SlideTransition(
+                              position: animation.drive(tween),
                               child: child,
                             );
                           },
