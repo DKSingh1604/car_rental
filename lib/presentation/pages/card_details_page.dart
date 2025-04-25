@@ -330,7 +330,7 @@ class _CardDetailsPageState extends State<CardDetailsPage>
                                 "Book Here",
                                 style: GoogleFonts.titilliumWeb(
                                   textStyle: TextStyle(
-                                    fontSize: screenWidth * 0.046,
+                                    fontSize: screenWidth * 0.04,
                                     fontWeight: FontWeight.bold,
                                     color: Colors.black,
                                   ),
@@ -417,11 +417,11 @@ class _CardDetailsPageState extends State<CardDetailsPage>
                                     MainAxisAlignment.spaceBetween,
                                 children: [
                                   //call option
-                                  Icon(Icons.call, size: 30),
+                                  Icon(Icons.call, size: screenWidth * 0.06),
 
                                   SizedBox(width: screenWidth * 0.20),
                                   //message option
-                                  Icon(Icons.message, size: 30),
+                                  Icon(Icons.message, size: screenWidth * 0.06),
                                 ],
                               ),
                             ],
