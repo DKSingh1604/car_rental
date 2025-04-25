@@ -2,6 +2,7 @@ import 'package:car_rental/data/models/car.dart';
 import 'package:car_rental/presentation/pages/booking_receipt_page.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:car_rental/services/email_service.dart';
 
 class CarBookForm extends StatefulWidget {
   final Car car;
@@ -49,7 +50,7 @@ class _CarBookFormState extends State<CarBookForm> {
             mainAxisSize: MainAxisSize.min,
             children: [
               Text(
-                '${widget.car.model}',
+                widget.car.model,
                 style: GoogleFonts.nunito(
                   textStyle: Theme.of(context).textTheme.titleLarge,
                   fontWeight: FontWeight.w600,
@@ -115,7 +116,7 @@ class _CarBookFormState extends State<CarBookForm> {
               ),
               const SizedBox(height: 16),
               ElevatedButton(
-                onPressed: () {
+                onPressed: () async {
                   if (_formKey.currentState!.validate() &&
                       _startDate != null &&
                       _endDate != null) {
@@ -123,6 +124,30 @@ class _CarBookFormState extends State<CarBookForm> {
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(content: Text('Booking submitted!')),
                     );
+                    try {
+                      await EmailService.sendBookingEmail(
+                        name: _nameController.text,
+                        email: _emailController.text,
+                        carModel: widget.car.model,
+                        phone: _phoneController.text,
+                        startDate: _startDate!,
+                        endDate: _endDate!,
+                      );
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text('Booking submitted and email sent!'),
+                        ),
+                      );
+                    } catch (e) {
+                      print(e);
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text(
+                            'Booking submitted, but failed to send email: $e',
+                          ),
+                        ),
+                      );
+                    }
                     //navigate to booking receipt page
                     Navigator.push(
                       context,

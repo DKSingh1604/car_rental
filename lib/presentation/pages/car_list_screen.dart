@@ -13,7 +13,7 @@ class CarListScreen extends StatefulWidget {
 }
 
 class _CarListScreenState extends State<CarListScreen> {
-  String _searchQuery = '';
+  final String _searchQuery = '';
   @override
   void initState() {
     super.initState();
@@ -71,7 +71,7 @@ class _CarListScreenState extends State<CarListScreen> {
                           _searchQuery.isEmpty
                               ? state.cars
                               : state.cars.where((car) {
-                                final name = car.model?.toLowerCase() ?? '';
+                                final name = car.model.toLowerCase() ?? '';
 
                                 return name == _searchQuery;
                               }).toList();

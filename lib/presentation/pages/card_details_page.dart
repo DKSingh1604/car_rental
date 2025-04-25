@@ -299,19 +299,46 @@ class _CardDetailsPageState extends State<CardDetailsPage>
                         ],
                       ),
                       margin: EdgeInsets.all(screenWidth * 0.04),
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(screenWidth * 0.06),
-                        child: Transform.scale(
-                          scale: _animation!.value,
-                          alignment: Alignment.center,
-                          child: Image.asset(
-                            'assets/images/maps.png',
-                            fit: BoxFit.fill,
-                            height: screenHeight * 0.25,
-                            width: screenWidth * 0.4,
-                            scale: 5.5,
+                      child: Stack(
+                        alignment: Alignment.bottomCenter,
+                        children: [
+                          ClipRRect(
+                            borderRadius: BorderRadius.circular(
+                              screenWidth * 0.06,
+                            ),
+                            child: Transform.scale(
+                              scale: _animation!.value,
+                              alignment: Alignment.center,
+                              child: Image.asset(
+                                'assets/images/maps.png',
+                                fit: BoxFit.fill,
+                                height: screenHeight * 0.25,
+                                width: screenWidth * 0.4,
+                                scale: 5.5,
+                              ),
+                            ),
                           ),
-                        ),
+                          Positioned(
+                            bottom: 8,
+                            left: 8,
+                            right: 8,
+                            child: Padding(
+                              padding: EdgeInsets.all(
+                                MediaQuery.of(context).size.width * 0.07,
+                              ),
+                              child: Text(
+                                "Book Here",
+                                style: GoogleFonts.titilliumWeb(
+                                  textStyle: TextStyle(
+                                    fontSize: screenWidth * 0.046,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.black,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                   ),
