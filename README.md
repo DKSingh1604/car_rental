@@ -23,7 +23,7 @@ A full-featured Car Rental mobile application built using **Flutter**, with a ro
 | Dart       | Programming language for Flutter      |
 | Firebase   | Backend-as-a-Service (BaaS)           |
 | BLoC       | Predictable state management          |
-| Google Maps | Location tracking and navigation     |
+| Maps       | Location tracking and navigation     |
 
 ---
 
